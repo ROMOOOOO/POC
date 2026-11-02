@@ -11,7 +11,7 @@
 
   <script type="module">
       // Install service worker and wait until ready
-      await navigator.serviceWorker.register("/sw.js");
+      await navigator.serviceWorker.register("/POC/sw.js");
       (await navigator.serviceWorker.ready).active.postMessage("CLAIM");
       if (!navigator.serviceWorker.controller) {
         await new Promise((resolve) => {
